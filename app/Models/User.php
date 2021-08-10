@@ -12,15 +12,31 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'password',
+        'telephone',
+        'street',
+        'village',
+        'city',
+        'province',
+        'country',
+        'weight',
+        'height',
+        'disease',
+        'snore',
+        'access',
+        'active'
     ];
 
     /**
@@ -41,4 +57,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getCode($lenght)
+    {
+        $char= '0123456789abcdefABCDEF';
+        $string = '';
+        for ($i = 0; $i < $lenght; $i++) {
+          $pos = rand(0, strlen($char)-1);
+          $string .= $char[$pos];
+        }
+        return $string;
+    }
+
+    public function getNumber($lenght)
+    {
+        $char= '123456789';
+        $string = '';
+        for ($i = 0; $i < $lenght; $i++) {
+          $pos = rand(0, strlen($char)-1);
+          $string .= $char[$pos];
+        }
+        return $string;
+    }
 }
