@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\UserOtpController;
+use App\Http\Controllers\Api\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,23 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
 	Route::post('/profile', [AuthController::class, 'profile']);
 	Route::post('/logout', [AuthController::class, 'logout']);
+
+	Route::group(['prefix' => 'project'], function(){
+		Route::get('/',   [ProjectController::class, 'index']);
+	    Route::post('/',   [ProjectController::class, 'store']);
+	    Route::put('/{id}', [ProjectController::class, 'update']);
+		Route::delete('/{id}', [ProjectController::class, 'destroy']);
+
+		Route::group(['prefix' => 'tool'], function(){
+			Route::get('/{id}',   [ProjectController::class, 'indexTool']);
+			Route::post('/{id}',   [ProjectController::class, 'storeTool']);
+			Route::get('/show/{id}',   [ProjectController::class, 'showTool']);
+		});
+
+		Route::group(['prefix' => 'param'], function(){
+			Route::get('/{id}',   [ProjectController::class, 'indexParam']);
+		});
+	});
 });
 
 
